@@ -131,6 +131,7 @@ public class PrometeoCarController : MonoBehaviour
       public bool isDrifting; // Used to know whether the car is drifting or not.
       [HideInInspector]
       public bool isTractionLocked; // Used to know whether the traction of the car is locked or not.
+    public bool isGrounded;
 
     //PRIVATE VARIABLES
 
@@ -375,6 +376,24 @@ public class PrometeoCarController : MonoBehaviour
       // We call the method AnimateWheelMeshes() in order to match the wheel collider movements with the 3D meshes of the wheels.
       AnimateWheelMeshes();
 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Drivable"))
+            isGrounded = true;
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Drivable") && isGrounded == false)
+            isGrounded = true;
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Drivable"))
+            isGrounded = false;
     }
 
     // This method converts the car speed data from float to string, and then set the text of the UI carSpeedText with this value.
