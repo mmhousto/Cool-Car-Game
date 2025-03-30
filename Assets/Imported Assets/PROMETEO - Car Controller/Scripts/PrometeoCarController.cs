@@ -15,7 +15,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class PrometeoCarController : MonoBehaviour
+public class PrometeoCarController : MonoBehaviour, IPushable
 {
 
     //CAR SETUP
@@ -816,4 +816,18 @@ public class PrometeoCarController : MonoBehaviour
         reversing = value.isPressed;
     }
 
+    public void OnReset(InputValue value)
+    {
+        if(carRigidbody.linearVelocity.magnitude <= 1)
+        {
+            transform.rotation = Quaternion.identity;
+            transform.position = transform.position + new Vector3 (0f, 3f, 0f);
+        }
+        
+    }
+
+    public void Push(Vector2 direction, float force)
+    {
+        carRigidbody.AddForce(direction * carRigidbody.mass, ForceMode.Impulse);
+    }
 }

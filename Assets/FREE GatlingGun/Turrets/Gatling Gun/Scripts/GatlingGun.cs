@@ -20,11 +20,19 @@ public class GatlingGun : MonoBehaviour
     // Distance the turret can aim and fire from
     public float firingRange;
 
+    public float hitBackMultiplier = 1f;
+
     // Particle system for the muzzel flash
     public ParticleSystem muzzelFlash;
 
-    public Slider fireTimeSlider;
+    // Overheat Bar
+    private Slider fireTimeSlider;
 
+    // Audio source and clips for firing gatling gun
+    public AudioSource gunAudioSource;
+    public AudioClip firingSound, endSound;
+
+    // Layers can hit
     LayerMask layerMask;
 
     // Used to start and stop the turret firing
@@ -41,6 +49,7 @@ public class GatlingGun : MonoBehaviour
 
     void Start()
     {
+        fireTimeSlider = GameObject.FindWithTag("FireTime").GetComponent<Slider>();
         layerMask = LayerMask.GetMask("Default", "Player");
         // Set the firing range distance
         this.GetComponent<SphereCollider>().radius = firingRange;
@@ -109,11 +118,9 @@ public class GatlingGun : MonoBehaviour
             // start rotation
             currentRotationSpeed = barrelRotationSpeed;
 
+
             // start particle system 
-            if (!muzzelFlash.isPlaying)
-            {
-                muzzelFlash.Play();
-            }
+            if (!muzzelFlash.isPlaying) muzzelFlash.Play();
         }
         else
         {
@@ -139,6 +146,8 @@ public class GatlingGun : MonoBehaviour
     {
         if (canFire && firing && fireTime > 0 && shooting == null && startedFiring == false) // firing 
         {
+            // Start Audio Source
+            gunAudioSource.Play();
             shooting = StartCoroutine(Shooting());
             startedFiring = true;
             Debug.Log("Shooting Coroutine Started");
@@ -158,9 +167,14 @@ public class GatlingGun : MonoBehaviour
             if (Physics.Raycast(go_barrel.position, go_barrel.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
             {
                 Debug.Log(hit.transform.name);
-                if (hit.transform.CompareTag("Breakable"))
+                if (hit.transform.TryGetComponent(out IPushable pushable))
                 {
-                    hit.transform.GetComponent<Rigidbody>().AddForce(-hit.normal, ForceMode.Impulse);
+                    pushable.Push(-hit.normal, hitBackMultiplier);
+                }
+
+                if (hit.transform.TryGetComponent(out IDamagable damagable))
+                {
+                    damagable.Damage();
                 }
             }
             else
@@ -169,7 +183,11 @@ public class GatlingGun : MonoBehaviour
             }
             yield return new WaitForSeconds(fireRate);
         }
+
+        gunAudioSource.Stop();
+        gunAudioSource.PlayOneShot(endSound);
         startedFiring = false;
+        shooting = null;
 
     }
 
