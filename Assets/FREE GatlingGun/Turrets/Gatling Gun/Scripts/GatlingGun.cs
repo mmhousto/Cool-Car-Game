@@ -32,6 +32,9 @@ public class GatlingGun : MonoBehaviour
     public AudioSource gunAudioSource;
     public AudioClip firingSound, endSound;
 
+    // Audio source for bullet hit sound
+    public AudioSource bulletHitAudioSource;
+
     // Layers can hit
     LayerMask layerMask;
 
@@ -167,6 +170,9 @@ public class GatlingGun : MonoBehaviour
             if (Physics.Raycast(go_barrel.position, go_barrel.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
             {
                 Debug.Log(hit.transform.name);
+                bulletHitAudioSource.transform.position = hit.transform.position;
+                bulletHitAudioSource.PlayOneShot(bulletHitAudioSource.clip);
+
                 if (hit.transform.TryGetComponent(out IPushable pushable))
                 {
                     pushable.Push(-hit.normal, hitBackMultiplier);
