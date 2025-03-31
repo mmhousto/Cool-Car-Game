@@ -52,6 +52,7 @@ public class GatlingGun : MonoBehaviour
 
     void Start()
     {
+        bulletHitAudioSource = GameObject.FindWithTag("BulletHit").GetComponent<AudioSource>();
         fireTimeSlider = GameObject.FindWithTag("FireTime").GetComponent<Slider>();
         layerMask = LayerMask.GetMask("Default", "Player");
         // Set the firing range distance

@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - Breakable
   - FireTime
+  - BulletHit
+  - Explosion
   layers:
   - Default
   - TransparentFX
