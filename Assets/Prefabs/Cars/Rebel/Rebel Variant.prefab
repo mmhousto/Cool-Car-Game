@@ -431,7 +431,7 @@ GameObject:
   - component: {fileID: 2297313606968588918}
   - component: {fileID: 7439012402744769406}
   - component: {fileID: 8337297623440676617}
-  - component: {fileID: 9056669506270338158}
+  - component: {fileID: 177168229499290482}
   m_Layer: 7
   m_Name: Body
   m_TagString: Untagged
@@ -508,8 +508,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &9056669506270338158
-BoxCollider:
+--- !u!64 &177168229499290482
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -526,9 +526,10 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.85, y: 0.93, z: 4.34}
-  m_Center: {x: 0, y: 0.85, z: -0.018977284}
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 2959467708922500008, guid: 9ec6a8fc6925acb4abc5500eeecb8270, type: 3}
 --- !u!1 &5073263154863021839
 GameObject:
   m_ObjectHideFlags: 0
@@ -968,7 +969,7 @@ PrefabInstance:
       objectReference: {fileID: 2556534345785872458}
     - target: {fileID: 513837786522728446, guid: 406765f93ba9e1a43a2760931097558d, type: 3}
       propertyPath: m_Name
-      value: Stang Variant
+      value: Rebel Variant
       objectReference: {fileID: 0}
     - target: {fileID: 1189151409721190009, guid: 406765f93ba9e1a43a2760931097558d, type: 3}
       propertyPath: m_LocalPosition.y
