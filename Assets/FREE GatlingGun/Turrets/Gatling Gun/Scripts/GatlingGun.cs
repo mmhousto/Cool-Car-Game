@@ -1,9 +1,10 @@
 ﻿using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class GatlingGun : MonoBehaviour
+public class GatlingGun : NetworkBehaviour
 {
     // target the gun will aim at
     Transform go_target;
@@ -52,28 +53,40 @@ public class GatlingGun : MonoBehaviour
 
     void Start()
     {
-        bulletHitAudioSource = GameObject.FindWithTag("BulletHit").GetComponent<AudioSource>();
-        fireTimeSlider = GameObject.FindWithTag("FireTime").GetComponent<Slider>();
-        layerMask = LayerMask.GetMask("Default", "Player");
-        // Set the firing range distance
-        this.GetComponent<SphereCollider>().radius = firingRange;
-        canFire = true;
-        coolDown = 0;
-        fireTime = fireMaxTime;
-        fireTimeSlider.value = fireTime;
+        if (IsOwner)
+        {
+            bulletHitAudioSource = GameObject.FindWithTag("BulletHit").GetComponent<AudioSource>();
+            fireTimeSlider = GameObject.FindWithTag("FireTime").GetComponent<Slider>();
+            layerMask = LayerMask.GetMask("Default", "Player");
+            // Set the firing range distance
+            this.GetComponent<SphereCollider>().radius = firingRange;
+            canFire = true;
+            coolDown = 0;
+            fireTime = fireMaxTime;
+            fireTimeSlider.value = fireTime;
+        }
+        
     }
 
     void Update()
     {
-        HandleCanFire();
+        if (IsOwner)
+        {
+            HandleCanFire();
 
 
-        AimAndFire();
+            AimAndFire();
+        }
+        
     }
 
     private void FixedUpdate()
     {
-        Shoot();
+        if (IsOwner)
+        {
+            Shoot();
+        }
+        
     }
 
     void OnDrawGizmosSelected()
@@ -200,6 +213,7 @@ public class GatlingGun : MonoBehaviour
 
     public void OnFire(InputValue inputValue)
     {
-        firing = inputValue.isPressed;
+        if (IsOwner)
+            firing = inputValue.isPressed;
     }
 }

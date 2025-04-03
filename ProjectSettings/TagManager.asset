@@ -10,6 +10,8 @@ TagManager:
   - FireTime
   - BulletHit
   - Explosion
+  - Speed
+  - SpawnPoint
   layers:
   - Default
   - TransparentFX
