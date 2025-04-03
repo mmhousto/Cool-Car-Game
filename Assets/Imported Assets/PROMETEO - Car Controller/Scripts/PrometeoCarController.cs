@@ -879,6 +879,7 @@ public class PrometeoCarController : NetworkBehaviour, IPushable
 
     public void Push(Vector2 direction, float force)
     {
-        carRigidbody.AddForce(direction * carRigidbody.mass, ForceMode.Impulse);
+        if (IsOwner && carRigidbody != null)
+            carRigidbody.AddForce(direction * carRigidbody.mass, ForceMode.Impulse);
     }
 }

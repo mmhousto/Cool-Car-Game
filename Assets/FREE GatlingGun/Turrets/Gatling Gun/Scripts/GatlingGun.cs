@@ -161,7 +161,7 @@ public class GatlingGun : NetworkBehaviour
 
     void Shoot()
     {
-        if (canFire && firing && fireTime > 0 && shooting == null && startedFiring == false) // firing 
+        if (canFire && firing && fireTime > 0 && shooting == null && startedFiring == false && IsOwner) // firing 
         {
             // Start Audio Source
             gunAudioSource.Play();

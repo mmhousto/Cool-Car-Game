@@ -1,7 +1,8 @@
 using Unity.Cinemachine;
+using Unity.Netcode;
 using UnityEngine;
 
-public class NetworkPlayer : MonoBehaviour
+public class NetworkPlayer : NetworkBehaviour
 {
 
     private GameObject[] spawnPoints;
@@ -10,15 +11,19 @@ public class NetworkPlayer : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
-        int randomPoint = Random.Range(0, spawnPoints.Length);
-        transform.position = spawnPoints[randomPoint].transform.position;
-        transform.rotation = spawnPoints[randomPoint].transform.rotation;
+        if (IsOwner)
+        {
+            spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+            int randomPoint = Random.Range(0, spawnPoints.Length);
+            transform.position = spawnPoints[randomPoint].transform.position;
+            transform.rotation = spawnPoints[randomPoint].transform.rotation;
 
-        playerCam = GameObject.FindWithTag("MainCamera").GetComponent<CinemachineCamera>();
-        playerCam.Target.TrackingTarget = transform;
+            playerCam = GameObject.FindWithTag("MainCamera").GetComponent<CinemachineCamera>();
+            playerCam.Target.TrackingTarget = transform;
 
-        MainMenuManager.instance.DisableButtons();
+            MainMenuManager.instance.DisableButtons();
+        }
+        
     }
 
     // Update is called once per frame
