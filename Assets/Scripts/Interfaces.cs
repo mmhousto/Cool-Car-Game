@@ -7,5 +7,5 @@ public interface IPushable
 
     public interface IDamagable
     {
-        public void Damage();
+        public void DamageRpc();
     }

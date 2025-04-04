@@ -194,7 +194,7 @@ public class GatlingGun : NetworkBehaviour
 
                 if (hit.transform.TryGetComponent(out IDamagable damagable))
                 {
-                    damagable.Damage();
+                    damagable.DamageRpc();
                 }
             }
             else

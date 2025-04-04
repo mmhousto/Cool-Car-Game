@@ -1,7 +1,8 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Health : MonoBehaviour, IDamagable
+public class Health : NetworkBehaviour, IDamagable
 {
 
     public int health;
@@ -25,13 +26,14 @@ public class Health : MonoBehaviour, IDamagable
     {
 
     }
-    
-    public void Damage()
+
+    [Rpc(SendTo.Everyone)]
+    public void DamageRpc()
     {
         StartCoroutine(FlashRed());
         health--;
         if(health < 0)
-            Destroy(gameObject);
+            NetworkObject.Destroy(gameObject);
     }
 
     IEnumerator FlashRed()
