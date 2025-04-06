@@ -33,7 +33,18 @@ public class Health : NetworkBehaviour, IDamagable
         StartCoroutine(FlashRed());
         health--;
         if(health < 0)
-            NetworkObject.Destroy(gameObject);
+        {
+            if (transform.tag == "Player")
+            {
+                GetComponent<NetworkPlayer>().Respawn();
+                health = maxHealth;
+            }
+            else if (IsOwner)
+                NetworkObject.Destroy(gameObject);
+            else
+                Destroy(gameObject);
+        }
+            
     }
 
     IEnumerator FlashRed()
