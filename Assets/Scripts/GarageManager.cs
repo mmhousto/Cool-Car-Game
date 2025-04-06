@@ -23,7 +23,8 @@ public class GarageManager : MonoBehaviour
 
     public void SelectCar()
     {
-        Debug.Log("Selected Car: " + currentCar);
+        if(Player.Instance != null)
+            Player.Instance.UpdateCurrentCar(currentCar);
     }
 
     public void Next()

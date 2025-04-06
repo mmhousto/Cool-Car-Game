@@ -13,6 +13,7 @@ public class NetworkPlayer : NetworkBehaviour
         if (IsOwner)
         {
             spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+
             Respawn();
 
             MainMenuManager.instance.DisableButtons();
