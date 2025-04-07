@@ -21,6 +21,7 @@ public class CameraManager : NetworkBehaviour
                 player.SetActive(false);
             }
             playerCams[0].SetActive(true);
+            activeCam = 0;
         }
 
     }

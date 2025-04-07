@@ -935,6 +935,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3226079239859764692, guid: 406765f93ba9e1a43a2760931097558d, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2267068416
+      objectReference: {fileID: 0}
+    - target: {fileID: -1942853122896873922, guid: 406765f93ba9e1a43a2760931097558d, type: 3}
+      propertyPath: mainRenderer
+      value: 
+      objectReference: {fileID: 8337297623440676617}
     - target: {fileID: 347100504940341774, guid: 406765f93ba9e1a43a2760931097558d, type: 3}
       propertyPath: rearLeftMesh
       value: 

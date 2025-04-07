@@ -1,9 +1,8 @@
-using System.Data;
 using Unity.Netcode;
 using Unity.Services.Authentication;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : NetworkBehaviour
 {
 
     private static Player instance;
@@ -41,13 +40,18 @@ public class Player : MonoBehaviour
     private void Update()
     {
         if (AuthenticationService.Instance.IsSignedIn && PlayerName != AuthenticationService.Instance.PlayerName)
-                PlayerName = AuthenticationService.Instance.PlayerName;
+            PlayerName = AuthenticationService.Instance.PlayerName;
     }
 
-    public void SpawnCar()
+    [Rpc(SendTo.Everyone)]
+    public void SpawnCarRpc()
     {
-        var car = Instantiate(carPrefabs[Player.Instance.CurrentCar]);
-        car.GetComponent<NetworkObject>().Spawn();
+        if (IsLocalPlayer)
+        {
+            var car = Instantiate(carPrefabs[Player.Instance.CurrentCar]);
+            car.GetComponent<NetworkObject>().Spawn();
+        }
+            
     }
 
     public void SavePlayer()
