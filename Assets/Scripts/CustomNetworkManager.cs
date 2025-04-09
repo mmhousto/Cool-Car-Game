@@ -1,7 +1,6 @@
 using Unity.Netcode;
-using Unity.Networking.Transport;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Networking;
 
 public class CustomNetworkManager : NetworkManager
 {
@@ -10,9 +9,11 @@ public class CustomNetworkManager : NetworkManager
         GameObject player = (GameObject)Instantiate(Player.Instance.carPrefabs[Player.Instance.CurrentCar], Vector3.zero, Quaternion.identity);
         NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
     }*/
+    private Cars cars;
 
     private void Start()
     {
+        cars = GetComponent<Cars>();
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectCallback;
     }
@@ -30,12 +31,23 @@ public class CustomNetworkManager : NetworkManager
 
     private void OnClientConnectedCallback(ulong clientId)
     {
-        if(clientId == NetworkManager.Singleton.LocalClientId)
-            Player.Instance.SpawnCarRpc();
+        if (clientId == NetworkManager.Singleton.LocalClientId)
+        {
+            SpawnCarRpc(clientId);
+        }
+
     }
 
     private void OnClientDisconnectCallback(ulong clientId)
     {
         //OnClientConnectionNotification?.Invoke(clientId, ConnectionStatus.Disconnected);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void SpawnCarRpc(ulong id)
+    {
+        var car = Instantiate(cars.carPrefabs[Player.Instance.CurrentCar]);
+        car.GetComponent<NetworkObject>().SpawnAsPlayerObject(id);
+
     }
 }
