@@ -23,6 +23,8 @@ public class NetworkPlayer : NetworkBehaviour
 
     public void Respawn()
     {
+        if (!IsOwner) return;
+
         int randomPoint = Random.Range(0, spawnPoints.Length);
         transform.position = spawnPoints[randomPoint].transform.position;
         transform.rotation = spawnPoints[randomPoint].transform.rotation;

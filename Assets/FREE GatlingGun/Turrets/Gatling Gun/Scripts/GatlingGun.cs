@@ -70,14 +70,8 @@ public class GatlingGun : NetworkBehaviour
 
     void Update()
     {
-        if (IsOwner)
-        {
-            HandleCanFire();
-
-
-            AimAndFire();
-        }
-        
+        HandleCanFire();
+        AimAndFire();
     }
 
     private void FixedUpdate()
@@ -123,7 +117,8 @@ public class GatlingGun : NetworkBehaviour
 
     void AimAndFire()
     {
-        fireTimeSlider.value = fireTime;
+        if(IsOwner)
+            fireTimeSlider.value = fireTime;
 
         // Gun barrel rotation
         go_barrel.transform.Rotate(0, 0, currentRotationSpeed * Time.deltaTime);

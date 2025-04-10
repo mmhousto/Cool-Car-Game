@@ -31,6 +31,7 @@ public class CustomNetworkManager : NetworkManager
 
     private void OnClientConnectedCallback(ulong clientId)
     {
+        Debug.Log("Client Connected");
         if (clientId == NetworkManager.Singleton.LocalClientId)
         {
             SpawnCarRpc(clientId);
@@ -43,11 +44,12 @@ public class CustomNetworkManager : NetworkManager
         //OnClientConnectionNotification?.Invoke(clientId, ConnectionStatus.Disconnected);
     }
 
-    [Rpc(SendTo.Everyone)]
+    [Rpc(SendTo.Authority)]
     public void SpawnCarRpc(ulong id)
     {
         var car = Instantiate(cars.carPrefabs[Player.Instance.CurrentCar]);
         car.GetComponent<NetworkObject>().SpawnAsPlayerObject(id);
+        Debug.Log("Spawned Car");
 
     }
 }
