@@ -10,6 +10,7 @@ public class CustomNetworkManager : NetworkManager
         NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
     }*/
     private Cars cars;
+    private bool spawnedPlayer = false;
 
     private void Start()
     {
@@ -32,8 +33,9 @@ public class CustomNetworkManager : NetworkManager
     private void OnClientConnectedCallback(ulong clientId)
     {
         Debug.Log("Client Connected");
-        if (clientId == NetworkManager.Singleton.LocalClientId)
+        if (clientId == NetworkManager.Singleton.LocalClientId && spawnedPlayer == false && IsClient)
         {
+            spawnedPlayer = true;
             SpawnCarRpc(clientId);
         }
 
@@ -44,7 +46,7 @@ public class CustomNetworkManager : NetworkManager
         //OnClientConnectionNotification?.Invoke(clientId, ConnectionStatus.Disconnected);
     }
 
-    [Rpc(SendTo.Authority)]
+    [Rpc(SendTo.Server)]
     public void SpawnCarRpc(ulong id)
     {
         var car = Instantiate(cars.carPrefabs[Player.Instance.CurrentCar]);

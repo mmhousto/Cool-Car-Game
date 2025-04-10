@@ -60,12 +60,13 @@ public class GatlingGun : NetworkBehaviour
             layerMask = LayerMask.GetMask("Default", "Player");
             // Set the firing range distance
             this.GetComponent<SphereCollider>().radius = firingRange;
-            canFire = true;
-            coolDown = 0;
-            fireTime = fireMaxTime;
+
             fireTimeSlider.value = fireTime;
         }
-        
+
+        canFire = true;
+        coolDown = 0;
+        fireTime = fireMaxTime;
     }
 
     void Update()
@@ -80,7 +81,7 @@ public class GatlingGun : NetworkBehaviour
         {
             Shoot();
         }
-        
+
     }
 
     void OnDrawGizmosSelected()
@@ -117,7 +118,7 @@ public class GatlingGun : NetworkBehaviour
 
     void AimAndFire()
     {
-        if(IsOwner)
+        if (IsOwner)
             fireTimeSlider.value = fireTime;
 
         // Gun barrel rotation
@@ -156,7 +157,7 @@ public class GatlingGun : NetworkBehaviour
 
     void Shoot()
     {
-        if (canFire && firing && fireTime > 0 && shooting == null && startedFiring == false && IsOwner) // firing 
+        if (canFire && firing && fireTime > 0 && shooting == null && startedFiring == false) // firing 
         {
             // Start Audio Source
             gunAudioSource.Play();
@@ -170,7 +171,7 @@ public class GatlingGun : NetworkBehaviour
     {
         startedFiring = true;
 
-        while (firing)
+        while (firing && IsOwner)
         {
 
             RaycastHit hit;

@@ -25,10 +25,9 @@ public class Smoking : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (health.health > 50 && smokePS.isPlaying || explosionPS.isPlaying)
+        if (health.health > 50 && smokePS.isPlaying)
         {
             smokePS.Stop();
-            explosionPS.Stop();
         }
 
         if(health.health <= 50 && !smokePS.isPlaying) smokePS.Play(); // start smoke
