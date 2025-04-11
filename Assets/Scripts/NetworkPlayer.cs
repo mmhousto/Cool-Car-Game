@@ -1,3 +1,4 @@
+using System;
 using Unity.Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
@@ -28,16 +29,18 @@ public class NetworkPlayer : NetworkBehaviour
         gameObject.SetActive(false);
         foreach(Collider col in colliders)
         {
+            if (col.GetType() == typeof(SphereCollider)) continue;
             col.isTrigger = true;
         }
 
-        int randomPoint = Random.Range(0, spawnPoints.Length);
+        int randomPoint = UnityEngine.Random.Range(0, spawnPoints.Length);
         transform.position = spawnPoints[randomPoint].transform.position;
         transform.rotation = spawnPoints[randomPoint].transform.rotation;
 
         gameObject.SetActive(true);
         foreach (Collider col in colliders)
         {
+            if (col.GetType() == typeof(SphereCollider)) continue;
             col.isTrigger = false;
         }
     }
