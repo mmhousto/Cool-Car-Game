@@ -869,7 +869,7 @@ public class PrometeoCarController : NetworkBehaviour, IPushable
 
     public void OnReset(InputValue value)
     {
-        if(carRigidbody.linearVelocity.magnitude <= 1 && IsOwner)
+        if(IsOwner && carRigidbody.linearVelocity.magnitude <= 1)
         {
             transform.rotation = Quaternion.identity;
             transform.position = transform.position + new Vector3 (0f, 3f, 0f);

@@ -34,7 +34,7 @@ public class GatlingGun : NetworkBehaviour
     public AudioClip firingSound, endSound;
 
     // Audio source for bullet hit sound
-    public AudioSource bulletHitAudioSource;
+    private AudioSource bulletHitAudioSource;
 
     // Layers can hit
     LayerMask layerMask;
@@ -155,7 +155,7 @@ public class GatlingGun : NetworkBehaviour
         if (fireTime > fireMaxTime) fireTime = fireMaxTime; // set fire time to max
     }
 
-    void Shoot()
+    public void Shoot()
     {
         if (canFire && firing && fireTime > 0 && shooting == null && startedFiring == false) // firing 
         {
@@ -163,7 +163,6 @@ public class GatlingGun : NetworkBehaviour
             gunAudioSource.Play();
             shooting = StartCoroutine(Shooting());
             startedFiring = true;
-            Debug.Log("Shooting Coroutine Started");
         }
     }
 
@@ -179,7 +178,7 @@ public class GatlingGun : NetworkBehaviour
             // Does the ray intersect any objects excluding the player layer
             if (Physics.Raycast(go_barrel.position, go_barrel.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
             {
-                Debug.Log(hit.transform.name);
+                //Debug.Log(hit.transform.name);
                 bulletHitAudioSource.transform.position = hit.transform.position;
                 bulletHitAudioSource.PlayOneShot(bulletHitAudioSource.clip);
 
@@ -195,7 +194,7 @@ public class GatlingGun : NetworkBehaviour
             }
             else
             {
-                Debug.Log("Did not Hit");
+                //Debug.Log("Did not Hit");
             }
             yield return new WaitForSeconds(fireRate);
         }
@@ -209,7 +208,6 @@ public class GatlingGun : NetworkBehaviour
 
     public void OnFire(InputValue inputValue)
     {
-        if (IsOwner)
-            firing = inputValue.isPressed;
+        firing = inputValue.isPressed;
     }
 }

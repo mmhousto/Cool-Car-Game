@@ -32,7 +32,7 @@ public class CustomNetworkManager : NetworkManager
 
     private void OnClientConnectedCallback(ulong clientId)
     {
-        Debug.Log("Client Connected");
+        //Debug.Log("Client Connected");
         if (clientId == NetworkManager.Singleton.LocalClientId && spawnedPlayer == false && IsClient)
         {
             spawnedPlayer = true;
@@ -51,7 +51,7 @@ public class CustomNetworkManager : NetworkManager
     {
         var car = Instantiate(cars.carPrefabs[Player.Instance.CurrentCar]);
         car.GetComponent<NetworkObject>().SpawnAsPlayerObject(id);
-        Debug.Log("Spawned Car");
+        //Debug.Log("Spawned Car");
 
     }
 }
