@@ -18,19 +18,46 @@ public class Health : NetworkBehaviour, IDamagable
         if (mainRenderer == null)
             mainRenderer = GetComponent<Renderer>();
         startColor = mainRenderer.material.color;
-
         
+        if(IsOwner)
+            health.Value = maxHealth;
+
+        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
+        NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectCallback;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDestroy()
     {
+        // Since the NetworkManager can potentially be destroyed before this component, only
+        // remove the subscriptions if that singleton still exists.
+        if (NetworkManager.Singleton != null)
+        {
+            NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnectedCallback;
+            NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnectCallback;
+        }
+    }
+
+    private void OnClientConnectedCallback(ulong clientId)
+    {
+        if (!IsHost)
+        {
+            if (!NetworkObject.IsSpawned)
+                Destroy(this.gameObject);
+        }
 
     }
+
+    private void OnClientDisconnectCallback(ulong clientId)
+    {
+        //OnClientConnectionNotification?.Invoke(clientId, ConnectionStatus.Disconnected);
+    }
+
 
     public override void OnNetworkSpawn()
     {
-        if(IsOwner)
+        base.OnNetworkSpawn();
+
+        if (IsOwner)
             health.Value = maxHealth;
 
         if (health.Value <= 0)
@@ -40,10 +67,8 @@ public class Health : NetworkBehaviour, IDamagable
                 GetComponent<NetworkPlayer>().Respawn();
                 health.Value = maxHealth;
             }
-            else DestroyMeRpc();
+            else Destroy(gameObject);
         }
-
-        
 
         health.OnValueChanged += OnStateChanged;
     }
@@ -71,9 +96,9 @@ public class Health : NetworkBehaviour, IDamagable
     public void DamageRpc()
     {
         StartCoroutine(FlashRed());
-        if(IsOwner)
+        if (IsOwner)
             health.Value--;
-        if(health.Value <= 0)
+        if (health.Value <= 0)
         {
             if (transform.tag == "Player")
             {
