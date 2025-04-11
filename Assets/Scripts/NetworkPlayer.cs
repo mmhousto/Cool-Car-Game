@@ -6,6 +6,7 @@ public class NetworkPlayer : NetworkBehaviour
 {
 
     private GameObject[] spawnPoints;
+    private Collider[] colliders;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public override void OnNetworkSpawn()
@@ -13,7 +14,7 @@ public class NetworkPlayer : NetworkBehaviour
         if (IsOwner)
         {
             spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
-
+            colliders = GetComponentsInChildren<MeshCollider>();
             Respawn();
 
             MainMenuManager.instance.DisableButtons();
@@ -25,10 +26,20 @@ public class NetworkPlayer : NetworkBehaviour
     {
         if (!IsOwner) return;
         gameObject.SetActive(false);
+        foreach(Collider col in colliders)
+        {
+            col.isTrigger = true;
+        }
+
         int randomPoint = Random.Range(0, spawnPoints.Length);
         transform.position = spawnPoints[randomPoint].transform.position;
         transform.rotation = spawnPoints[randomPoint].transform.rotation;
+
         gameObject.SetActive(true);
+        foreach (Collider col in colliders)
+        {
+            col.isTrigger = false;
+        }
     }
 
     // Update is called once per frame

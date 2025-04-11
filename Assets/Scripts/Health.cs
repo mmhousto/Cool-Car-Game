@@ -10,6 +10,8 @@ public class Health : NetworkBehaviour, IDamagable
     private Color startColor;
     public Renderer mainRenderer;
     private WaitForSeconds hitEffectTime;
+    private NetworkPlayer np;
+    private Smoking smoking;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -21,6 +23,13 @@ public class Health : NetworkBehaviour, IDamagable
         
         if(IsOwner)
             health.Value = maxHealth;
+
+        if (transform.tag == "Player")
+        {
+            np = GetComponent<NetworkPlayer>();
+        }
+
+        smoking = GetComponentInChildren<Smoking>();
 
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectCallback;
@@ -60,16 +69,6 @@ public class Health : NetworkBehaviour, IDamagable
         if (IsOwner)
             health.Value = maxHealth;
 
-        if (health.Value <= 0)
-        {
-            if (transform.tag == "Player")
-            {
-                GetComponent<NetworkPlayer>().Respawn();
-                health.Value = maxHealth;
-            }
-            else Destroy(gameObject);
-        }
-
         health.OnValueChanged += OnStateChanged;
     }
 
@@ -80,16 +79,21 @@ public class Health : NetworkBehaviour, IDamagable
 
     public void OnStateChanged(int previous, int current)
     {
-        if (health.Value <= 0)
+        /*if (health.Value <= 0)
         {
             if (transform.tag == "Player")
             {
-                GetComponent<NetworkPlayer>().Respawn();
+                smoking.blewUp = false;
+                smoking.BlowUpRpc();
+                np.Respawn();
                 health.Value = maxHealth;
             }
             else
+            {
+                if (smoking != null) smoking.BlowUpRpc();
                 DestroyMeRpc();
-        }
+            }
+        }*/
     }
 
     [Rpc(SendTo.Everyone)]
@@ -102,11 +106,17 @@ public class Health : NetworkBehaviour, IDamagable
         {
             if (transform.tag == "Player")
             {
-                GetComponent<NetworkPlayer>().Respawn();
+                smoking.blewUp = false;
+                smoking.BlowUpRpc();
+                np.Respawn();
                 health.Value = maxHealth;
             }
             else
+            {
+                if (smoking != null) smoking.BlowUpRpc();
                 DestroyMeRpc();
+            }
+               
         }
 
     }
