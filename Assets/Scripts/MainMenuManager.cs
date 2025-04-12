@@ -7,7 +7,7 @@ public class MainMenuManager : MonoBehaviour
 
     public static MainMenuManager instance;
 
-    public GameObject sessionButtons, sessionList, garage;
+    public GameObject[] objectsToDisable;
 
     private void Awake()
     {
@@ -16,9 +16,11 @@ public class MainMenuManager : MonoBehaviour
 
     public void DisableButtons()
     {
-        sessionButtons.SetActive(false);
-        sessionList.SetActive(false);
-        garage.SetActive(false);
+        foreach (GameObject obj in objectsToDisable)
+        {
+            obj.SetActive(false);
+        }
+
     }
 
     public void ToGarage()

@@ -5442,8 +5442,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Player 1dssdsdsads
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 80dae9aa0b4bf5847b34f3a5c7631bd1, type: 2}
+  m_sharedMaterial: {fileID: 8415532216524141370, guid: 80dae9aa0b4bf5847b34f3a5c7631bd1, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5523,6 +5523,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f84b3a7cfd6c144f958ee3831d51117, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  playerName:
+    m_InternalValue:
+      utf8LengthInBytes: 0
+      bytes:
+        offset0000:
+          byte0000: 0
+          byte0001: 0
+          byte0002: 0
+          byte0003: 0
+          byte0004: 0
+          byte0005: 0
+          byte0006: 0
+          byte0007: 0
+          byte0008: 0
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        byte0016: 0
+        byte0017: 0
+        byte0018: 0
+        byte0019: 0
+        byte0020: 0
+        byte0021: 0
+        byte0022: 0
+        byte0023: 0
+        byte0024: 0
+        byte0025: 0
+        byte0026: 0
+        byte0027: 0
+        byte0028: 0
+        byte0029: 0
 --- !u!1 &6592216065456164663
 GameObject:
   m_ObjectHideFlags: 0
@@ -5813,8 +5849,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc5033361d4d6db4b8edd54a89af0bf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   health: {fileID: -1942853122896873922}
   firePS: {fileID: 6435432117638907884}
+  blewUp: 0
 --- !u!4 &2549874621632748037 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4121091811543137509, guid: ddf4ea2625767fd4bb4153e7e4009ad5, type: 3}
