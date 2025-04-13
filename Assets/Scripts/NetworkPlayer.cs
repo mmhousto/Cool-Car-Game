@@ -2,12 +2,14 @@ using System;
 using Unity.Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class NetworkPlayer : NetworkBehaviour
 {
 
     private GameObject[] spawnPoints;
     private Collider[] colliders;
+    private Rigidbody rb;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public override void OnNetworkSpawn()
@@ -16,16 +18,30 @@ public class NetworkPlayer : NetworkBehaviour
         {
             spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
             colliders = GetComponentsInChildren<MeshCollider>();
+            rb = GetComponent<Rigidbody>();
             Respawn();
 
             MainMenuManager.instance.DisableButtons();
+
+            PauseManager.instance.resetButton.onClick.AddListener(Respawn);
         }
         
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+
+        if (IsOwner)
+        {
+            PauseManager.instance.resetButton.onClick.RemoveListener(Respawn);
+        }
     }
 
     public void Respawn()
     {
         if (!IsOwner) return;
+        rb.linearVelocity = Vector3.zero;
         gameObject.SetActive(false);
         foreach(Collider col in colliders)
         {
@@ -49,5 +65,11 @@ public class NetworkPlayer : NetworkBehaviour
     void Update()
     {
         
+    }
+
+    public void OnPause(InputValue inputValue)
+    {
+        if (!IsOwner) return;
+        PauseManager.instance.PauseResume();
     }
 }

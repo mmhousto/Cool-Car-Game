@@ -47,6 +47,11 @@ public class GarageManager : MonoBehaviour
 
     public void ToMainMenu()
     {
+        Invoke(nameof(LoadMainMenu), 0.16f);
+    }
+
+    public void LoadMainMenu()
+    {
         SceneManager.LoadScene(0);
     }
 }

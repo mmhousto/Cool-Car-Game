@@ -12,6 +12,7 @@ TagManager:
   - Explosion
   - Speed
   - SpawnPoint
+  - Pause
   layers:
   - Default
   - TransparentFX

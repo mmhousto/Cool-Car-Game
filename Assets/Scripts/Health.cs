@@ -13,6 +13,12 @@ public class Health : NetworkBehaviour, IDamagable
     private NetworkPlayer np;
     private Smoking smoking;
 
+    private void Awake()
+    {
+        if (IsOwner)
+            health.Value = maxHealth;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -102,7 +108,7 @@ public class Health : NetworkBehaviour, IDamagable
         StartCoroutine(FlashRed());
         if (IsOwner)
             health.Value--;
-        if (health.Value <= 0)
+        if (health.Value <= 0 && NetworkObject.IsSpawned)
         {
             if (transform.tag == "Player")
             {
@@ -114,7 +120,7 @@ public class Health : NetworkBehaviour, IDamagable
             else
             {
                 if (smoking != null) smoking.BlowUpRpc();
-                DestroyMeRpc();
+                Invoke(nameof(DestroyMeRpc), 1f);
             }
                
         }

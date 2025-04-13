@@ -25,6 +25,16 @@ public class MainMenuManager : MonoBehaviour
 
     public void ToGarage()
     {
+        Invoke(nameof(LoadGarage), 0.16f);
+    }
+
+    public void LoadGarage()
+    {
         SceneManager.LoadScene(1);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 }
