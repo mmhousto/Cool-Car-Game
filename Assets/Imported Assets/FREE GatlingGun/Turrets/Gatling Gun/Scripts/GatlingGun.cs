@@ -57,7 +57,7 @@ public class GatlingGun : NetworkBehaviour
         {
             bulletHitAudioSource = GameObject.FindWithTag("BulletHit").GetComponent<AudioSource>();
             fireTimeSlider = GameObject.FindWithTag("FireTime").GetComponent<Slider>();
-            layerMask = LayerMask.GetMask("Default", "Player");
+            layerMask = LayerMask.GetMask("Default", "Player", "CarBody");
             // Set the firing range distance
             this.GetComponent<SphereCollider>().radius = firingRange;
 
