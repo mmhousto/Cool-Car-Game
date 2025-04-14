@@ -1,6 +1,5 @@
 using Unity.Netcode;
-using Unity.VisualScripting;
-using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CustomNetworkManager : NetworkManager
 {
@@ -11,6 +10,19 @@ public class CustomNetworkManager : NetworkManager
     }*/
     private Cars cars;
     private bool spawnedPlayer = false;
+
+    private void Awake()
+    {
+        if (Singleton != this && Singleton != null)
+        {
+            Destroy(this.gameObject);
+
+        }
+        else
+        {
+            SetSingleton();
+        }
+    }
 
     private void Start()
     {
@@ -43,7 +55,9 @@ public class CustomNetworkManager : NetworkManager
 
     private void OnClientDisconnectCallback(ulong clientId)
     {
-        //OnClientConnectionNotification?.Invoke(clientId, ConnectionStatus.Disconnected);
+
+        if (clientId == NetworkManager.Singleton.LocalClientId)//OnClientConnectionNotification?.Invoke(clientId, ConnectionStatus.Disconnected);
+            spawnedPlayer = false;
     }
 
     [Rpc(SendTo.Server)]

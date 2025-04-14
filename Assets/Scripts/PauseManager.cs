@@ -2,8 +2,10 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using WebSocketSharp.Server;
+using Unity.Multiplayer.Widgets;
 
-public class PauseManager : MonoBehaviour
+public class PauseManager : NetworkBehaviour
 {
     public static PauseManager instance;
 
@@ -15,6 +17,7 @@ public class PauseManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        isLeaving = false;
     }
 
     public void PauseResume()
@@ -38,18 +41,43 @@ public class PauseManager : MonoBehaviour
 
     public void Leave()
     {
-        if(isLeaving == false)
+        if (isLeaving == false)
         {
             isLeaving = true;
             NetworkManager.Singleton.OnClientStopped += ReloadGame;
-            NetworkManager.Singleton.DisconnectClient(NetworkManager.Singleton.LocalClientId);
+            if (IsSessionOwner) 
+            { 
+                Debug.Log("Shutting Down"); 
+                ShutdownRpc();
+            }
+            else
+            {
+                Debug.Log("Disconnecting");
+                NetworkManager.DisconnectClient(NetworkObject.OwnerClientId);
+            }
+                
         }
         
     }
 
+    [Rpc(SendTo.Everyone)]
+    public void ShutdownRpc()
+    {
+        NetworkManager.Singleton.OnClientStopped += ReloadGame;
+        NetworkManager.Singleton.Shutdown();
+
+    }
+
     public void ReloadGame(bool value)
     {
+        Destroy(GameObject.Find("SessionManager"));
+        Destroy(GameObject.Find("WidgetEventDispatcher"));
         Destroy(NetworkManager.Singleton.gameObject);
+        Invoke(nameof(ReloadScene), 1f);
+    }
+
+    public void ReloadScene()
+    {
         SceneManager.LoadScene(0);
     }
 
