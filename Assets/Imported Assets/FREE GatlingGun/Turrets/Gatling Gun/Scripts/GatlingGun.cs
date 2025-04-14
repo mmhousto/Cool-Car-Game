@@ -149,7 +149,7 @@ public class GatlingGun : NetworkBehaviour
 
         if (coolDown <= 0 && firing == false && fireTime < fireMaxTime) // increase fire time if not firing and not in cooldown
         {
-            fireTime += Time.deltaTime;
+            fireTime += Time.deltaTime/2;
         }
 
         if (fireTime > fireMaxTime) fireTime = fireMaxTime; // set fire time to max

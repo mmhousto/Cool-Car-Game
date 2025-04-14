@@ -13,6 +13,7 @@ TagManager:
   - Speed
   - SpawnPoint
   - Pause
+  - BoostTime
   layers:
   - Default
   - TransparentFX

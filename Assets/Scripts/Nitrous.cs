@@ -16,12 +16,14 @@ public class Nitrous : NetworkBehaviour
     bool canBoost = false;
     bool boosting = false;
     bool startedBoosting = false;
-    float boostMaxTime = 2.5f;
+    float boostMaxTime = 5f;
     [Range(0f, 5f)]
     float boostTime = 0;
     float coolDown = 0;
-    int boostSpeed = 20;
+    int boostPower = 35;
     int defaultAcceleration;
+    int defaultMaxSpeed;
+    int boostSpeed = 600;
 
     Coroutine boost = null;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -33,6 +35,7 @@ public class Nitrous : NetworkBehaviour
             carController = GetComponent<PrometeoCarController>();
             defaultAcceleration = carController.accelerationMultiplier;
             boostTimeSlider.value = boostMaxTime;
+            defaultMaxSpeed = carController.maxSpeed;
         }
 
         canBoost = true;
@@ -59,7 +62,6 @@ public class Nitrous : NetworkBehaviour
         if (canBoost && boosting && boostTime > 0) // firing 
         {
             boostTime -= Time.deltaTime;
-
         }
         else
         {
@@ -68,20 +70,22 @@ public class Nitrous : NetworkBehaviour
 
         if (coolDown <= 0 && boosting == false && boostTime < boostMaxTime) // increase fire time if not firing and not in cooldown
         {
-            boostTime += Time.deltaTime;
+            boostTime += Time.deltaTime/4;
         }
 
         if (boostTime > boostMaxTime) boostTime = boostMaxTime; // set fire time to ma
 
 
 
-        if (boosting && canBoost && boostTime > 0 && carController.accelerationMultiplier != boostSpeed)
+        if (boosting && canBoost && boostTime > 0 && carController.accelerationMultiplier != boostPower)
         {
-            carController.accelerationMultiplier = boostSpeed; // boosting
+            carController.maxSpeed = boostSpeed;
+            carController.accelerationMultiplier = boostPower; // boosting
         }
 
-        if (boosting == false && carController.accelerationMultiplier != defaultAcceleration) // firing 
+        if ((boosting == false || canBoost == false) && carController.accelerationMultiplier != defaultAcceleration) // firing 
         {
+            carController.maxSpeed = defaultMaxSpeed;
             carController.accelerationMultiplier = defaultAcceleration;
             // Start Audio Source
             //gunAudioSource.Play();
@@ -92,7 +96,7 @@ public class Nitrous : NetworkBehaviour
     {
         if (boostTime <= 0 && coolDown <= 0) // reset cooldown
         {
-            coolDown = 2.5f;
+            coolDown = 5f;
         }
 
         if (coolDown > 0) // decrease cooldown time

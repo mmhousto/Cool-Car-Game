@@ -2,8 +2,6 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using WebSocketSharp.Server;
-using Unity.Multiplayer.Widgets;
 
 public class PauseManager : NetworkBehaviour
 {
