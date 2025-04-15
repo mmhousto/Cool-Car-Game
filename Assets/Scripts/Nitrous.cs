@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class Nitrous : NetworkBehaviour
 {
+    public AudioSource nosAudio;
+    public AudioClip nosStart;
     private Rigidbody rb;
     private PrometeoCarController carController;
     // NOS Bar
@@ -65,6 +67,13 @@ public class Nitrous : NetworkBehaviour
         // if can fire turret activates
         if (canBoost && boosting && boostTime > 0) // firing 
         {
+            if(startedBoosting == false)
+            {
+                nosAudio.PlayOneShot(nosStart);
+                startedBoosting = true;
+                nosAudio.PlayDelayed(2.5f);
+            }
+            
             boostTime -= Time.deltaTime;
             rb.AddForce(transform.forward * boostPower, ForceMode.Impulse);
         }
@@ -76,6 +85,8 @@ public class Nitrous : NetworkBehaviour
         if (coolDown <= 0 && boosting == false && boostTime < boostMaxTime) // increase fire time if not firing and not in cooldown
         {
             boostTime += Time.deltaTime/4;
+            nosAudio.Stop();
+            startedBoosting = false;
         }
 
         if (boostTime > boostMaxTime) boostTime = boostMaxTime; // set fire time to ma
@@ -110,6 +121,10 @@ public class Nitrous : NetworkBehaviour
                 canBoost = false;
             if (boosting != false)
                 boosting = false;
+            if (startedBoosting == true)
+                startedBoosting = false;
+            if(nosAudio.isPlaying)
+                nosAudio.Stop();
             coolDown -= Time.deltaTime;
             if (coolDown <= 0) boostTime = 0.01f;
         }
