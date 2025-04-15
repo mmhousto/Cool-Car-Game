@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class Nitrous : NetworkBehaviour
 {
+    private Rigidbody rb;
     private PrometeoCarController carController;
     // NOS Bar
     private Slider boostTimeSlider;
@@ -20,7 +21,7 @@ public class Nitrous : NetworkBehaviour
     [Range(0f, 5f)]
     float boostTime = 0;
     float coolDown = 0;
-    int boostPower = 35;
+    int boostPower = 50;
     int defaultAcceleration;
     int defaultMaxSpeed;
     int boostSpeed = 600;
@@ -33,6 +34,7 @@ public class Nitrous : NetworkBehaviour
         {
             boostTimeSlider = GameObject.FindWithTag("BoostTime").GetComponent<Slider>();
             carController = GetComponent<PrometeoCarController>();
+            rb = GetComponent<Rigidbody>();
             defaultAcceleration = carController.accelerationMultiplier;
             boostTimeSlider.value = boostMaxTime;
             defaultMaxSpeed = carController.maxSpeed;
@@ -55,6 +57,8 @@ public class Nitrous : NetworkBehaviour
 
     public void Boost()
     {
+        if (!IsOwner) return;
+
         if (IsOwner)
             boostTimeSlider.value = boostTime;
 
@@ -62,6 +66,7 @@ public class Nitrous : NetworkBehaviour
         if (canBoost && boosting && boostTime > 0) // firing 
         {
             boostTime -= Time.deltaTime;
+            rb.AddForce(transform.forward * boostPower, ForceMode.Impulse);
         }
         else
         {
@@ -77,7 +82,7 @@ public class Nitrous : NetworkBehaviour
 
 
 
-        if (boosting && canBoost && boostTime > 0 && carController.accelerationMultiplier != boostPower)
+        /*if (boosting && canBoost && boostTime > 0 && carController.accelerationMultiplier != boostPower)
         {
             carController.maxSpeed = boostSpeed;
             carController.accelerationMultiplier = boostPower; // boosting
@@ -89,7 +94,7 @@ public class Nitrous : NetworkBehaviour
             carController.accelerationMultiplier = defaultAcceleration;
             // Start Audio Source
             //gunAudioSource.Play();
-        }
+        }*/
     }
 
     void HandleCanBoost()
