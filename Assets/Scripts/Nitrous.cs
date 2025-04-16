@@ -10,6 +10,7 @@ public class Nitrous : NetworkBehaviour
 {
     public AudioSource nosAudio;
     public AudioClip nosStart;
+    public ParticleSystem nosPS1, nosPS2;
     private Rigidbody rb;
     private PrometeoCarController carController;
     // NOS Bar
@@ -59,8 +60,6 @@ public class Nitrous : NetworkBehaviour
 
     public void Boost()
     {
-        if (!IsOwner) return;
-
         if (IsOwner)
             boostTimeSlider.value = boostTime;
 
@@ -72,10 +71,17 @@ public class Nitrous : NetworkBehaviour
                 nosAudio.PlayOneShot(nosStart);
                 startedBoosting = true;
                 nosAudio.PlayDelayed(2.5f);
+                nosPS1.Play();
+                nosPS2.Play();
             }
-            
+
             boostTime -= Time.deltaTime;
-            rb.AddForce(transform.forward * boostPower, ForceMode.Impulse);
+
+            if (IsOwner)
+            {
+                rb.AddForce(transform.forward * boostPower, ForceMode.Impulse);
+            }
+                
         }
         else
         {
@@ -86,6 +92,8 @@ public class Nitrous : NetworkBehaviour
         {
             boostTime += Time.deltaTime/4;
             nosAudio.Stop();
+            nosPS1.Stop();
+            nosPS2.Stop();
             startedBoosting = false;
         }
 
@@ -125,6 +133,10 @@ public class Nitrous : NetworkBehaviour
                 startedBoosting = false;
             if(nosAudio.isPlaying)
                 nosAudio.Stop();
+            if (nosPS1.isPlaying)
+                nosPS1.Stop();
+            if (nosPS2.isPlaying)
+                nosPS2.Stop();
             coolDown -= Time.deltaTime;
             if (coolDown <= 0) boostTime = 0.01f;
         }

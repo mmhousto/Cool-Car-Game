@@ -60,6 +60,7 @@ QualitySettings:
     excludedTargetPlatforms:
     - Android
     - iPhone
+    - WebGL
   - serializedVersion: 4
     name: Low
     pixelLightCount: 2

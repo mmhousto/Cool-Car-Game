@@ -10,6 +10,7 @@ public class SoccerManager : NetworkBehaviour
     public NetworkVariable<int> blueScore = new NetworkVariable<int>();
     public TextMeshPro[] redScoreLabels;
     public TextMeshPro[] blueScoreLabels;
+    private Rigidbody ballRb;
 
     public override void OnNetworkSpawn()
     {
@@ -19,6 +20,7 @@ public class SoccerManager : NetworkBehaviour
         {
             redScore.Value = 0;
             blueScore.Value = 0;
+            ballRb = ball.GetComponent<Rigidbody>();
         }
 
 
@@ -64,5 +66,7 @@ public class SoccerManager : NetworkBehaviour
     {
         if (!IsOwner) return;
         ball.transform.localPosition = ballSpawn.transform.localPosition;
+        ballRb.linearVelocity = Vector3.zero;
+        ballRb.angularVelocity = Vector3.zero;
     }
 }
