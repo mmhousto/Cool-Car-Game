@@ -161,6 +161,8 @@ public class PrometeoCarController : NetworkBehaviour, IPushable
       WheelFrictionCurve RRwheelFriction;
       float RRWextremumSlip;
 
+    public LayerMask layerMask;
+
     Vector2 moveDir;
     bool accelerating;
     bool reversing;
@@ -290,6 +292,8 @@ public class PrometeoCarController : NetworkBehaviour, IPushable
                     Debug.LogWarning(ex);
                 }
             }
+            layerMask = LayerMask.GetMask("Road", "Ground");
+            isGrounded = true;
         }
 
     }
@@ -307,6 +311,11 @@ public class PrometeoCarController : NetworkBehaviour, IPushable
             localVelocityX = transform.InverseTransformDirection(carRigidbody.linearVelocity).x;
             // Save the local velocity of the car in the z axis. Used to know if the car is going forward or backwards.
             localVelocityZ = transform.InverseTransformDirection(carRigidbody.linearVelocity).z;
+
+
+            // CHECK IS GROUNDED WIP
+            //isGrounded = Physics.SphereCast(transform.position, 5f, Vector3.down, out RaycastHit info, 2f, layerMask);
+
 
             //CAR PHYSICS
 
@@ -344,7 +353,7 @@ public class PrometeoCarController : NetworkBehaviour, IPushable
                 {
                     TurnRight();
                 }
-                if (handbrakePTI.buttonPressed)
+                if (handbrakePTI.buttonPressed && isGrounded)
                 {
                     CancelInvoke("DecelerateCar");
                     deceleratingCar = false;
@@ -393,7 +402,7 @@ public class PrometeoCarController : NetworkBehaviour, IPushable
                 {
                     TurnRight();
                 }
-                if (drifting)
+                if (drifting && isGrounded)
                 {
                     CancelInvoke("DecelerateCar");
                     deceleratingCar = false;
@@ -419,28 +428,9 @@ public class PrometeoCarController : NetworkBehaviour, IPushable
 
             }
 
-
             // We call the method AnimateWheelMeshes() in order to match the wheel collider movements with the 3D meshes of the wheels.
             AnimateWheelMeshes();
         }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.CompareTag("Drivable") && IsOwner)
-            isGrounded = true;
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Drivable") && isGrounded == false && IsOwner)
-            isGrounded = true;
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Drivable") && IsOwner)
-            isGrounded = false;
     }
 
     // This method converts the car speed data from float to string, and then set the text of the UI carSpeedText with this value.
@@ -449,7 +439,7 @@ public class PrometeoCarController : NetworkBehaviour, IPushable
       if(useUI){
           try{
             float absoluteCarSpeed = Mathf.Abs(carSpeed);
-            carSpeedText.text = Mathf.RoundToInt(absoluteCarSpeed).ToString();
+            carSpeedText.text = Mathf.RoundToInt(carRigidbody.linearVelocity.magnitude).ToString();
           }catch(Exception ex){
             Debug.LogWarning(ex);
           }
@@ -469,11 +459,11 @@ public class PrometeoCarController : NetworkBehaviour, IPushable
             float engineSoundPitch = initialCarEngineSoundPitch + (Mathf.Abs(carRigidbody.linearVelocity.magnitude) / 25f);
             carEngineSound.pitch = engineSoundPitch;
           }
-          if((isDrifting) || (isTractionLocked && Mathf.Abs(carSpeed) > 12f)){
+          if((isDrifting && isGrounded) || (isTractionLocked && Mathf.Abs(carSpeed) > 12f)){
             if(!tireScreechSound.isPlaying){
               tireScreechSound.Play();
             }
-          }else if((!isDrifting) && (!isTractionLocked || Mathf.Abs(carSpeed) < 12f)){
+          }else if((!isDrifting || !isGrounded) && (!isTractionLocked || Mathf.Abs(carSpeed) < 12f)){
             tireScreechSound.Stop();
           }
         }catch(Exception ex){
@@ -761,10 +751,10 @@ public class PrometeoCarController : NetworkBehaviour, IPushable
 
       if(useEffects){
         try{
-          if(isDrifting){
+          if(isDrifting && isGrounded){
             RLWParticleSystem.Play();
             RRWParticleSystem.Play();
-          }else if(!isDrifting){
+          }else if(!isDrifting || !isGrounded){
             RLWParticleSystem.Stop();
             RRWParticleSystem.Stop();
           }

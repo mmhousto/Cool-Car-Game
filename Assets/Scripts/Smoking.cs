@@ -12,7 +12,6 @@ public class Smoking : NetworkBehaviour
     ParticleSystem.MainModule main;
     private AudioSource explosion;
     private ParticleSystem explosionPS;
-    private Rigidbody explosionRb;
     public bool blewUp = false;
     private float power = 1500f;
     private float radius = 15f;
@@ -25,7 +24,6 @@ public class Smoking : NetworkBehaviour
         startSize = main.startSize;
         explosion = GameObject.FindWithTag("Explosion").GetComponent<AudioSource>();
         explosionPS = explosion.GetComponent<ParticleSystem>();
-        explosionRb = explosion.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
