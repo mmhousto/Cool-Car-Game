@@ -230,7 +230,7 @@ public class PrometeoCarController : NetworkBehaviour, IPushable
             {
                 if (carSpeedText != null)
                 {
-                    carSpeedText.text = "0";
+                    carSpeedText.text = "Speed: 0";
                 }
             }
 
@@ -439,7 +439,11 @@ public class PrometeoCarController : NetworkBehaviour, IPushable
       if(useUI){
           try{
             float absoluteCarSpeed = Mathf.Abs(carSpeed);
-            carSpeedText.text = Mathf.RoundToInt(carRigidbody.linearVelocity.magnitude).ToString();
+                float speedInMetersPerSecond = carRigidbody.linearVelocity.magnitude;
+
+                // Convert m/s to mph (1 m/s = 2.23694 mph)
+                int speedInMPH = (int)(speedInMetersPerSecond * 2.23694f);
+                carSpeedText.text = $"{speedInMPH.ToString()} mph";
           }catch(Exception ex){
             Debug.LogWarning(ex);
           }
