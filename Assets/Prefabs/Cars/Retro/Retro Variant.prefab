@@ -822,6 +822,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7077307220371825212}
     - target: {fileID: 347100504940341774, guid: 406765f93ba9e1a43a2760931097558d, type: 3}
+      propertyPath: maxReverseSpeed
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 347100504940341774, guid: 406765f93ba9e1a43a2760931097558d, type: 3}
       propertyPath: rearLeftCollider
       value: 
       objectReference: {fileID: 4991871843053533337}
@@ -892,6 +896,10 @@ PrefabInstance:
     - target: {fileID: 2139889494824963495, guid: 406765f93ba9e1a43a2760931097558d, type: 3}
       propertyPath: m_Mass
       value: 1500
+      objectReference: {fileID: 0}
+    - target: {fileID: 2139889494824963495, guid: 406765f93ba9e1a43a2760931097558d, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2255709339420006733, guid: 406765f93ba9e1a43a2760931097558d, type: 3}
       propertyPath: m_Layer

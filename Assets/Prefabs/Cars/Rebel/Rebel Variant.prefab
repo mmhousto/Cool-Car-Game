@@ -1011,6 +1011,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8337297623440676617}
     - target: {fileID: 347100504940341774, guid: 406765f93ba9e1a43a2760931097558d, type: 3}
+      propertyPath: maxSpeed
+      value: 314
+      objectReference: {fileID: 0}
+    - target: {fileID: 347100504940341774, guid: 406765f93ba9e1a43a2760931097558d, type: 3}
       propertyPath: brakeForce
       value: 600
       objectReference: {fileID: 0}
@@ -1026,6 +1030,10 @@ PrefabInstance:
       propertyPath: rearRightMesh
       value: 
       objectReference: {fileID: 3996915292034974763}
+    - target: {fileID: 347100504940341774, guid: 406765f93ba9e1a43a2760931097558d, type: 3}
+      propertyPath: steeringSpeed
+      value: 0.9
+      objectReference: {fileID: 0}
     - target: {fileID: 347100504940341774, guid: 406765f93ba9e1a43a2760931097558d, type: 3}
       propertyPath: frontRightMesh
       value: 

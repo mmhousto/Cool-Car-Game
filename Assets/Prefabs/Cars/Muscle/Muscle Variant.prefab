@@ -1033,6 +1033,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 413067555612255699}
     - target: {fileID: 347100504940341774, guid: 406765f93ba9e1a43a2760931097558d, type: 3}
+      propertyPath: maxSpeed
+      value: 267
+      objectReference: {fileID: 0}
+    - target: {fileID: 347100504940341774, guid: 406765f93ba9e1a43a2760931097558d, type: 3}
       propertyPath: brakeForce
       value: 600
       objectReference: {fileID: 0}
