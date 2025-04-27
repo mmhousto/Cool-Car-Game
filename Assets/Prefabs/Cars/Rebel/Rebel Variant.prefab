@@ -1032,7 +1032,7 @@ PrefabInstance:
       objectReference: {fileID: 3996915292034974763}
     - target: {fileID: 347100504940341774, guid: 406765f93ba9e1a43a2760931097558d, type: 3}
       propertyPath: steeringSpeed
-      value: 0.9
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 347100504940341774, guid: 406765f93ba9e1a43a2760931097558d, type: 3}
       propertyPath: frontRightMesh

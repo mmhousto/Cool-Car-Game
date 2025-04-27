@@ -40,11 +40,13 @@ public class PrometeoCarController : NetworkBehaviour, IPushable
     public int decelerationMultiplier = 2; // How fast the car decelerates when the user is not using the throttle.
     [Range(1, 10)]
     public int handbrakeDriftMultiplier = 5; // How much grip the car loses when the user hit the handbrake.
+    
     [Space(10)]
     public Vector3 bodyMassCenter; // This is a vector that contains the center of mass of the car. I recommend to set this value
                                    // in the points x = 0 and z = 0 of your car. You can select the value that you want in the y axis,
                                    // however, you must notice that the higher this value is, the more unstable the car becomes.
                                    // Usually the y value goes from 0 to 1.5.
+    private float driftThreshold = 5000; // How much force needs to be applied on the x axis to start drifting
 
     //WHEELS
 
@@ -602,7 +604,7 @@ public class PrometeoCarController : NetworkBehaviour, IPushable
     {
         //If the forces aplied to the rigidbody in the 'x' asis are greater than
         //3f, it means that the car is losing traction, then the car will start emitting particle systems.
-        if (Mathf.Abs(localVelocityX) > 2.5f)
+        if (Mathf.Abs(localVelocityX) > driftThreshold)
         {
             isDrifting = true;
             DriftCarPS();
@@ -657,7 +659,7 @@ public class PrometeoCarController : NetworkBehaviour, IPushable
     {
         //If the forces aplied to the rigidbody in the 'x' asis are greater than
         //3f, it means that the car is losing traction, then the car will start emitting particle systems.
-        if (Mathf.Abs(localVelocityX) > 2.5f)
+        if (Mathf.Abs(localVelocityX) > driftThreshold)
         {
             isDrifting = true;
             DriftCarPS();
@@ -721,7 +723,7 @@ public class PrometeoCarController : NetworkBehaviour, IPushable
     // usually every 0.1f when the user is not pressing W (throttle), S (reverse) or Space bar (handbrake).
     public void DecelerateCar()
     {
-        if (Mathf.Abs(localVelocityX) > 2.5f)
+        if (Mathf.Abs(localVelocityX) > driftThreshold)
         {
             isDrifting = true;
             DriftCarPS();
@@ -793,7 +795,7 @@ public class PrometeoCarController : NetworkBehaviour, IPushable
         }
         //If the forces aplied to the rigidbody in the 'x' asis are greater than
         //3f, it means that the car lost its traction, then the car will start emitting particle systems.
-        if (Mathf.Abs(localVelocityX) > 2.5f)
+        if (Mathf.Abs(localVelocityX) > driftThreshold)
         {
             isDrifting = true;
         }
@@ -853,7 +855,7 @@ public class PrometeoCarController : NetworkBehaviour, IPushable
 
             try
             {
-                if ((isTractionLocked || Mathf.Abs(localVelocityX) > 5f) && Mathf.Abs(carSpeed) > 12f && isGrounded)
+                if ((isTractionLocked || Mathf.Abs(localVelocityX) > 6f) && Mathf.Abs(carSpeed) > 12f && isGrounded)
                 {
                     RLWTireSkid.emitting = true;
                     RRWTireSkid.emitting = true;

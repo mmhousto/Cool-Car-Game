@@ -5876,7 +5876,7 @@ MonoBehaviour:
   brakeForce: 450
   decelerationMultiplier: 4
   handbrakeDriftMultiplier: 6
-  bodyMassCenter: {x: 0, y: 0, z: 0}
+  bodyMassCenter: {x: 0, y: 0.1, z: 0}
   frontLeftMesh: {fileID: 6255093048633717121}
   frontLeftCollider: {fileID: 1608796382450613665}
   frontRightMesh: {fileID: 283261880761593484}
@@ -5905,6 +5905,9 @@ MonoBehaviour:
   isDrifting: 0
   isTractionLocked: 0
   isGrounded: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &3486245832794141095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6014,7 +6017,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  health: 0
+  health:
+    m_InternalValue: 0
   maxHealth: 100
   mainRenderer: {fileID: 1238594070734650508}
 --- !u!114 &463499295147065825
@@ -6585,8 +6589,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc5033361d4d6db4b8edd54a89af0bf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   health: {fileID: 2204948358285128719}
   firePS: {fileID: 3410353423072409641}
+  blewUp: 0
 --- !u!4 &850104513935681321 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4121091811543137509, guid: ddf4ea2625767fd4bb4153e7e4009ad5, type: 3}
