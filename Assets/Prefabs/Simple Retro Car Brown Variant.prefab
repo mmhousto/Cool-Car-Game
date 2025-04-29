@@ -56,6 +56,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Simple Retro Car Brown Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 5278529307337470076, guid: e1aae2f9b3674654ba531a83cd01e793, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8904588277572190065, guid: e1aae2f9b3674654ba531a83cd01e793, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1392956787
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
