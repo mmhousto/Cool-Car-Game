@@ -5163,7 +5163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2347785977
+  GlobalObjectIdHash: 1331229896
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -5189,7 +5189,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  health: 0
+  health:
+    m_InternalValue: 0
   maxHealth: 100
   mainRenderer: {fileID: 1345048166401363297}
 --- !u!114 &8272194865412010423
@@ -5361,7 +5362,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!4 &4316171505544264991
 Transform:
@@ -5940,5 +5941,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc5033361d4d6db4b8edd54a89af0bf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   health: {fileID: 767403919662742005}
   firePS: {fileID: 7631818093101963062}
+  blewUp: 0
