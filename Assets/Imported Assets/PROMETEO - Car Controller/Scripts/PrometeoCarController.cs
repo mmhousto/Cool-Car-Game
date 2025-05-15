@@ -46,7 +46,7 @@ public class PrometeoCarController : NetworkBehaviour, IPushable
                                    // in the points x = 0 and z = 0 of your car. You can select the value that you want in the y axis,
                                    // however, you must notice that the higher this value is, the more unstable the car becomes.
                                    // Usually the y value goes from 0 to 1.5.
-    private float driftThreshold = 5000; // How much force needs to be applied on the x axis to start drifting
+    private float driftThreshold = 6; // How much force needs to be applied on the x axis to start drifting
 
     //WHEELS
 
@@ -359,15 +359,15 @@ public class PrometeoCarController : NetworkBehaviour, IPushable
                     deceleratingCar = false;
                     Handbrake();
                 }
-                if (!handbrakePTI.buttonPressed)
+                if (!handbrakePTI.buttonPressed && isGrounded)
                 {
                     RecoverTraction();
                 }
-                if ((!throttlePTI.buttonPressed && !reversePTI.buttonPressed))
+                if ((!throttlePTI.buttonPressed && !reversePTI.buttonPressed) && isGrounded)
                 {
                     ThrottleOff();
                 }
-                if ((!reversePTI.buttonPressed && !throttlePTI.buttonPressed) && !handbrakePTI.buttonPressed && !deceleratingCar)
+                if ((!reversePTI.buttonPressed && !throttlePTI.buttonPressed) && !handbrakePTI.buttonPressed && !deceleratingCar && isGrounded)
                 {
                     InvokeRepeating("DecelerateCar", 0f, 0.1f);
                     deceleratingCar = true;
@@ -408,15 +408,15 @@ public class PrometeoCarController : NetworkBehaviour, IPushable
                     deceleratingCar = false;
                     Handbrake();
                 }
-                if (drifting == false && isTractionLocked)
+                if (drifting == false && isTractionLocked && isGrounded)
                 {
                     RecoverTraction();
                 }
-                if (!reversing && !accelerating)
+                if (!reversing && !accelerating && isGrounded)
                 {
                     ThrottleOff();
                 }
-                if (!reversing && !accelerating && !drifting && !deceleratingCar)
+                if (!reversing && !accelerating && !drifting && !deceleratingCar && isGrounded)
                 {
                     InvokeRepeating("DecelerateCar", 0f, 0.1f);
                     deceleratingCar = true;

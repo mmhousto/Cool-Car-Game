@@ -1039,6 +1039,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8405827767703573245}
     - target: {fileID: 347100504940341774, guid: 406765f93ba9e1a43a2760931097558d, type: 3}
+      propertyPath: bodyMassCenter.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 347100504940341774, guid: 406765f93ba9e1a43a2760931097558d, type: 3}
+      propertyPath: bodyMassCenter.z
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 347100504940341774, guid: 406765f93ba9e1a43a2760931097558d, type: 3}
       propertyPath: rearLeftCollider
       value: 
       objectReference: {fileID: 3888846374717495723}
@@ -1122,6 +1130,14 @@ PrefabInstance:
       propertyPath: nosPS2
       value: 
       objectReference: {fileID: 8145747195866235129}
+    - target: {fileID: 8683975844245920190, guid: 406765f93ba9e1a43a2760931097558d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683975844245920190, guid: 406765f93ba9e1a43a2760931097558d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.48
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
